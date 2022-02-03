@@ -4,7 +4,7 @@ import { WORKER_LIST } from "../actionTypes/workerListActionType";
 const initialState = {
   list: [],
   sliceList: [],
-  listLength: 0,
+
   choosePage: 0,
   countOnPage: 10,
 };
@@ -26,6 +26,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         list: [...Array(100)].map((_, idx) => ({
+          id: idx,
           fullName: `Петя${idx} Петренко Слесаренко`,
           date: new Date(2011, 1, idx + 1),
           position: getPos(),
@@ -46,6 +47,31 @@ export default function (state = initialState, action) {
       return {
         ...state,
       };
+
+    case WORKER_LIST.DELETE_WORKER:
+      const deleteIndex = state.list.findIndex(
+        (el) => el.id === action.payload.data
+      );
+
+      const startArr = state.list.slice(0, deleteIndex);
+
+      const endArr = state.list.slice(deleteIndex + 1, state.list.length + 1);
+
+      state.list = [...startArr, ...endArr];
+
+      state.sliceList = state.list.slice(
+        state.countOnPage * state.choosePage,
+        state.countOnPage * state.choosePage + state.countOnPage
+      );
+      state.listLength = state.list.length;
+      console.log((state.listLength / state.countOnPage) * 10);
+
+      // state.sliceList.splice(action.payload.data, 1);
+
+      return {
+        ...state,
+      };
+
     default:
       return state;
   }

@@ -23,3 +23,12 @@ export function changeCountOnPage(data) {
     },
   };
 }
+
+export function deleteWorker(data) {
+  return {
+    type: WORKER_LIST.DELETE_WORKER,
+    payload: {
+      data,
+    },
+  };
+}

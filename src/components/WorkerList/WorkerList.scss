@@ -1,4 +1,8 @@
 .table {
+  .head__table {
+    font-size: 20px;
+    background-color: #95c8f3;
+  }
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -19,13 +23,13 @@
     margin-right: 15px;
 
     &:first-child {
-      width: 30%;
+      width: 25%;
     }
     &:nth-child(2) {
       width: 20%;
     }
     &:nth-child(3) {
-      width: 20%;
+      width: 15%;
     }
     &:nth-child(4) {
       width: 20%;
@@ -33,10 +37,15 @@
     &:nth-child(5) {
       width: 10%;
     }
+    &:nth-child(6) {
+      width: 20%;
+    }
   }
-  .head__table {
-    font-size: 20px;
-    background-color: #95c8f3;
+
+  .col_btn {
+    button {
+      margin-left: 10px;
+    }
   }
 }
 

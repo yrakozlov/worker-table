@@ -5,7 +5,10 @@ import {
   getWorkerList,
   changePage,
   changeCountOnPage,
+  deleteWorker,
 } from "../../actions/workerListAction";
+import have_fop from "./../../assets/image/have_fop.png";
+import not_fop from "./../../assets/image/not_fop.png";
 import "./WorkerList.scss";
 
 const WorkerList = () => {
@@ -24,9 +27,14 @@ const WorkerList = () => {
     100: 100,
   };
 
-  const { list, sliceList, countOnPage, choosePage } = useSelector(
-    ({ workerList }) => workerList
-  );
+  const {
+    list,
+    sliceList,
+    countOnPage,
+    choosePage,
+    listLength,
+    listWithDelete,
+  } = useSelector(({ workerList }) => workerList);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,43 +55,47 @@ const WorkerList = () => {
                 {el}
               </div>
             ))}
+            <div className="col">Действия</div>
           </div>
           {sliceList.map((el, index) => (
             <div className="row" key={index}>
-              {/* <div className="col">{el.fullName}</div>
-              <div className="col">{`${
-                el.date.getMonth() < 10
-                  ? "0" + el.date.getMonth()
-                  : el.date.getMonth()
-              }.${
-                el.date.getDate() < 10
-                  ? "0" + el.date.getDate()
-                  : el.date.getDate()
-              }.${el.date.getFullYear()}`}</div>
-              <div className="col">{el.position}</div>
-              <div className="col">{el.salary}</div>
-              <div className="col">{el.fop}</div> */}
               {Object.keys(headTable).map((key, idx) => (
                 <div key={idx} className="col">
-                  {key === "date"
-                    ? `${
-                        el.date.getMonth() < 10
-                          ? "0" + el.date.getMonth()
-                          : el.date.getMonth()
-                      }.${
-                        el.date.getDate() < 10
-                          ? "0" + el.date.getDate()
-                          : el.date.getDate()
-                      }.${el.date.getFullYear()}`
-                    : el[key]}
+                  {key === "fop" ? (
+                    <img
+                      onClick={() => {
+                        deleteWorker(index);
+                      }}
+                      src={el[key] ? have_fop : not_fop}
+                      alt="have_fop"
+                    ></img>
+                  ) : key === "date" ? (
+                    `${
+                      el.date.getMonth() < 10
+                        ? "0" + el.date.getMonth()
+                        : el.date.getMonth()
+                    }.${
+                      el.date.getDate() < 10
+                        ? "0" + el.date.getDate()
+                        : el.date.getDate()
+                    }.${el.date.getFullYear()}`
+                  ) : (
+                    el[key]
+                  )}
                 </div>
               ))}
+              <div className="col col_btn">
+                <button>Редактировать</button>
+                <button onClick={() => dispatch(deleteWorker(el.id))}>
+                  Уволить
+                </button>
+              </div>
             </div>
           ))}
         </div>
         <div className="pagination_wrapper">
           <ul className="pagination">
-            {[...Array(list.length / countOnPage)].map((_, idx) => (
+            {[...Array(Math.ceil(list.length / countOnPage))].map((_, idx) => (
               <li
                 className={`${choosePage === idx ? "active" : ""}`}
                 key={idx}
