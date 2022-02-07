@@ -7,6 +7,10 @@ import {
   changeCountOnPage,
   deleteWorker,
 } from "../../actions/workerListAction";
+
+import DialogComponent from "./../../HelperComponents/DialogComponent";
+import CreateForm from "../CreateForm/CreateForm";
+
 import have_fop from "./../../assets/image/have_fop.png";
 import not_fop from "./../../assets/image/not_fop.png";
 import "./WorkerList.scss";
@@ -27,14 +31,9 @@ const WorkerList = () => {
     100: 100,
   };
 
-  const {
-    list,
-    sliceList,
-    countOnPage,
-    choosePage,
-    listLength,
-    listWithDelete,
-  } = useSelector(({ workerList }) => workerList);
+  const { list, sliceList, countOnPage, choosePage } = useSelector(
+    ({ workerList }) => workerList
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,7 +46,13 @@ const WorkerList = () => {
 
   return (
     <main className="page_wrap">
+      <DialogComponent open={true}>
+        <CreateForm />
+      </DialogComponent>
       <div className="container">
+        <div className="button_wrapper">
+          <button>Нанять сотрудника</button>
+        </div>
         <div className="table">
           <div className="row head__table">
             {Object.values(headTable).map((el, idx) => (

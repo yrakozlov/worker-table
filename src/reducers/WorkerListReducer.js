@@ -4,7 +4,6 @@ import { WORKER_LIST } from "../actionTypes/workerListActionType";
 const initialState = {
   list: [],
   sliceList: [],
-
   choosePage: 0,
   countOnPage: 10,
 };

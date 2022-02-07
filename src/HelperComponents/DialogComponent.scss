@@ -1,0 +1,54 @@
+.default_dialog_root {
+  .paper_custom_dialog {
+    min-width: 840px;
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .dialog_close_button {
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    background: transparent;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    &:hover {
+      background: transparent;
+      transform: rotate(-270deg);
+    }
+  }
+}
+
+.dialog_wrapper {
+  padding: 40px 60px 30px 60px;
+  -moz-margin-end: 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  position: relative;
+  background-color: #ffffff;
+  max-height: 850px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    -webkit-border-radius: 2px;
+
+    background: #edf2f8;
+  }
+  &::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background: #5ce6cd;
+  }
+  &::-webkit-scrollbar-thumb:window-inactive {
+    background: #5ce6cd;
+  }
+}

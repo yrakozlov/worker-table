@@ -1,3 +1,9 @@
+.button_wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
 .table {
   .head__table {
     font-size: 20px;
@@ -7,7 +13,7 @@
   flex-direction: column;
   width: 100%;
   background-color: #e7f4ff;
-  margin-top: 50px;
+  margin-top: 30px;
   .row {
     display: flex;
     flex-direction: row;
