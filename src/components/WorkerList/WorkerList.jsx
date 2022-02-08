@@ -1,11 +1,13 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getWorkerList,
   changePage,
   changeCountOnPage,
   deleteWorker,
+  sortWorker,
+  filterWorker,
+  filterWorkerNotFop,
 } from "../../actions/workerListAction";
 
 import DialogComponent from "./../../HelperComponents/DialogComponent";
@@ -16,6 +18,10 @@ import not_fop from "./../../assets/image/not_fop.png";
 import "./WorkerList.scss";
 
 const WorkerList = () => {
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
+  const [isCreate, setIsCreate] = useState(true);
+  const [choosenWorker, setChoosenWorker] = useState();
+
   const headTable = {
     fullName: "Полное имя",
     date: "Дата",
@@ -44,20 +50,62 @@ const WorkerList = () => {
     dispatch(changePage(0));
   }, [list, countOnPage]);
 
+  const handleCloseCreateDialog = () => {
+    setOpenCreateDialog(!openCreateDialog);
+    setIsCreate(true);
+  };
+
+  const handleCloseEditeDialog = (index) => {
+    setOpenCreateDialog(!openCreateDialog);
+    setIsCreate(false);
+    setChoosenWorker(index);
+  };
+
   return (
     <main className="page_wrap">
-      <DialogComponent open={true}>
-        <CreateForm />
+      <DialogComponent
+        open={openCreateDialog}
+        onClose={() => setOpenCreateDialog(!openCreateDialog)}
+      >
+        <CreateForm
+          choosenWorker={choosenWorker}
+          isCreate={isCreate}
+          handleClose={() => setOpenCreateDialog(!openCreateDialog)}
+        />
       </DialogComponent>
       <div className="container">
         <div className="button_wrapper">
-          <button>Нанять сотрудника</button>
+          <button onClick={() => handleCloseCreateDialog()}>
+            Нанять сотрудника
+          </button>
+        </div>
+        <div className="filter_wrapper">
+          <button
+            className="fltr_fop"
+            onClick={() => {
+              dispatch(filterWorker(sliceList[0].fop));
+            }}
+          >
+            ФОП
+          </button>
+          <button
+            className="fltr_fop"
+            onClick={() => {
+              dispatch(filterWorkerNotFop());
+            }}
+          >
+            Не ФОП
+          </button>
         </div>
         <div className="table">
           <div className="row head__table">
-            {Object.values(headTable).map((el, idx) => (
-              <div className="col" key={idx}>
-                {el}
+            {Object.keys(headTable).map((el, idx) => (
+              <div
+                onClick={() => dispatch(sortWorker(el))}
+                className="col"
+                key={idx}
+              >
+                {headTable[el]}
               </div>
             ))}
             <div className="col">Действия</div>
@@ -90,7 +138,9 @@ const WorkerList = () => {
                 </div>
               ))}
               <div className="col col_btn">
-                <button>Редактировать</button>
+                <button onClick={() => handleCloseEditeDialog(index)}>
+                  Редактировать
+                </button>
                 <button onClick={() => dispatch(deleteWorker(el.id))}>
                   Уволить
                 </button>
